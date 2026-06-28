@@ -101,8 +101,15 @@ SHEET_NAME=ReportA
 ALLOWED_USERS=123456789
 ```
 
-### 4. Kredensial Google Cloud API (`credentials.json`)
-Letakkan berkas kredensial service account Google Cloud Anda di direktori utama proyek dengan nama **`credentials.json`**. Pastikan email service account tersebut telah diberikan akses kolaborator/editor pada Spreadsheet target.
+### 4. Setup Google Sheets & Kredensial
+Agar bot dapat menulis ke Google Sheets, Anda memerlukan **Service Account Google Cloud**:
+1. Buka [Google Cloud Console](https://console.cloud.google.com/).
+2. Buat Project baru, lalu aktifkan **Google Sheets API** dan **Google Drive API**.
+3. Buka menu **IAM & Admin > Service Accounts** dan buat Service Account baru.
+4. Buat kunci (Key) dalam format **JSON** dan unduh file tersebut.
+5. Ubah nama file JSON menjadi `credentials.json` dan letakkan di dalam folder utama proyek ini.
+6. Buka file JSON tersebut, salin alamat email yang ada pada kolom `client_email`.
+7. Buka spreadsheet Google Sheets Anda, klik **Share (Bagikan)**, lalu tambahkan email tersebut sebagai **Editor**.
 
 ### 5. Menjalankan Bot
 Untuk menyalakan server Telegram bot:
