@@ -4,32 +4,6 @@ Sistem integrasi **Telegram Bot** bertenaga **Claude Vision API (via Maia Router
 
 ---
 
-## 📐 Arsitektur & Alur Kerja FSM (Finite State Machine)
-
-Bot ini dikembangkan dengan arsitektur **State Machine** berbasis **Aiogram v3** untuk memastikan alur kerja operator di lapangan terekam dengan presisi:
-
-![Flowchart Arsitektur BotRekap MT](flowchart.png)
-
-```mermaid
-graph TD
-    Start([/start atau Tombol Keyboard]) --> State0[State 0: Pilih Tanggal Pengiriman]
-    State0 -->|Pilih tombol tanggal| State1[State 1: Unggah Foto SJ 1]
-    State1 -->|Proses Vision OCR| State1b[State 1b: Konfirmasi Hasil OCR SJ 1]
-    
-    State1b -->|Approved| State2[State 2: Tanya Keberadaan Pasangan SJ 2]
-    
-    State2 -->|Tidak Ada - Single SJ| State5[State 5: Tinjau Ringkasan Final]
-    State2 -->|Ada - Double SJ| State3[State 3: Unggah Foto SJ 2]
-    
-    State3 -->|Proses Vision OCR| State4b[State 4b: Konfirmasi Hasil OCR SJ 2]
-    State4b -->|Approved| State4[State 4: Validasi & Pemisahan Segel]
-    State4 -->|Saran Split Disetujui| State5
-    
-    State5 -->|Konfirmasi OK| State6[State 6: Pilih Ritase/Trip Ke-berapa]
-    State6 -->|Ritase Terpilih| State7[State 7: Kirim Data ke Google Sheets]
-    State7 --> End([Data Disimpan & State Direset])
-```
-
 ---
 
 ## ✨ Fitur & Fungsi Utama
@@ -140,4 +114,29 @@ python3 main.py
     ├── claude_ocr.py      # Integrasi Maia Router Claude Vision API untuk ekstraksi foto
     ├── segel_matcher.py   # Algoritma validasi, deduplikasi, dan saran pemisahan (split) segel
     └── sheet.py           # Eksekusi batch append data baris ke tabel Google Sheets
+```
+## 📐 Arsitektur & Alur Kerja FSM (Finite State Machine)
+
+Bot ini dikembangkan dengan arsitektur **State Machine** berbasis **Aiogram v3** untuk memastikan alur kerja operator di lapangan terekam dengan presisi:
+
+![Flowchart Arsitektur BotRekap MT](flowchart.png)
+
+```mermaid
+graph TD
+    Start([/start atau Tombol Keyboard]) --> State0[State 0: Pilih Tanggal Pengiriman]
+    State0 -->|Pilih tombol tanggal| State1[State 1: Unggah Foto SJ 1]
+    State1 -->|Proses Vision OCR| State1b[State 1b: Konfirmasi Hasil OCR SJ 1]
+    
+    State1b -->|Approved| State2[State 2: Tanya Keberadaan Pasangan SJ 2]
+    
+    State2 -->|Tidak Ada - Single SJ| State5[State 5: Tinjau Ringkasan Final]
+    State2 -->|Ada - Double SJ| State3[State 3: Unggah Foto SJ 2]
+    
+    State3 -->|Proses Vision OCR| State4b[State 4b: Konfirmasi Hasil OCR SJ 2]
+    State4b -->|Approved| State4[State 4: Validasi & Pemisahan Segel]
+    State4 -->|Saran Split Disetujui| State5
+    
+    State5 -->|Konfirmasi OK| State6[State 6: Pilih Ritase/Trip Ke-berapa]
+    State6 -->|Ritase Terpilih| State7[State 7: Kirim Data ke Google Sheets]
+    State7 --> End([Data Disimpan & State Direset])
 ```
